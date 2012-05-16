@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>GoGo | Example : TableSearch</title>
+	<link href="static/bootstrap.css" rel="stylesheet"></link>
+<style>
+#top-bar {width:100%;height:28px;line-height:28px;background:#333;color:#fff;}
+#sys-content {padding:60px 0 40px;border-bottom:dashed 1px #ccc;margin-bottom:20px;}
+h1 {vertical-align:top;margin-bottom:40px;}
+.btn.primary {padding:4px 24px;}
+#action {padding-top:20px;}
+#action span {margin:0 16px;display:inline-block;}
+</style>
+</head>
+<body>
+	<div class="container">
+		<section id="sys-content">
+			<h1>Hi, 樵苏! 输入您要搜索的项?</h1>
+			<form class="well">
+				<div class="row">
+					<div class="span3 control-group">
+						<label>手机号:</label>
+						<input type="text" class="input-medium" maxlength="11" name="phone" />
+						<p class="help-block">请输入11位手机号码。</p>
+					</div>
+					<div class="span3 control-group">
+						<label>电子邮件:</label>
+						<input type="text" class="input-medium" name="email" />
+						<p class="help-block">请输入电子邮件。</p>
+					</div>
+					<div class="span3 control-group">
+						<label>性别:</label>
+						<label class="radio inline">
+    						<input type="radio" value="0" name="sex" /> ALL
+  						</label>
+						<label class="radio inline">
+    						<input type="radio" value-"1" name="sex" /> M
+  						</label>
+  						<label class="radio inline">
+    						<input type="radio" value="2" name="sex" /> F
+  						</label>
+					</div>
+				</div>
+				<p><input type="submit" class="btn btn-small btn-primary" value="搜索" /></p>
+			</form>
+		</section>
+
+		<section id="dat-content">
+		  <table class="table table-bordered table-striped">
+		    <thead>
+		      <tr>
+		        <th>姓名</th>
+		        <th>手机号</th>
+		        <th>电子邮件</th>
+		        <th>性别</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr>
+		        <th>李大钊</th>
+		        <td>13382121888</td>
+		        <td>dazhao.li@alipay.com</td>
+		        <td>M</td>
+		      </tr>
+		    </tbody>
+		  </table>
+		  <div class="pagination pagination-right">
+	        <ul>
+	          <li class="active"><a href="/Users/Kenshin/Sites/gogo/mod_doc/twitter.github.com/bootstrap/components.html#">1</a></li>
+	          <li><a href="/Users/Kenshin/Sites/gogo/mod_doc/twitter.github.com/bootstrap/components.html#">2</a></li>
+	          <li><a href="/Users/Kenshin/Sites/gogo/mod_doc/twitter.github.com/bootstrap/components.html#">3</a></li>
+	          <li><a href="/Users/Kenshin/Sites/gogo/mod_doc/twitter.github.com/bootstrap/components.html#">4</a></li>
+	          <li><a href="/Users/Kenshin/Sites/gogo/mod_doc/twitter.github.com/bootstrap/components.html#">5</a></li>
+	        </ul>
+	      </div>
+		</section>
+	</div>
+</body>
+</html>
