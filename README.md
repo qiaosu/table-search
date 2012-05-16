@@ -19,4 +19,4 @@ table-search
 none
 
 ##UML
-![Uml]('static/tablesearch_uml.png')
+![Uml]('https://github.com/qiaosu/table-search/raw/master/static/tablesearch_uml.png')
