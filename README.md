@@ -14,3 +14,9 @@ table-search
 
 + Module Pattern
 + Observer Pattern
+
+##Code Snippets
+none
+
+##UML
+![Uml]('static/tablesearch_uml.png')
