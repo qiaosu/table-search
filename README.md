@@ -1,7 +1,7 @@
 table-search
 ============
 
-#an example of gogo frameworks
+an example of gogo frameworks
 
 ##依赖的Micro-frameworks:
 
