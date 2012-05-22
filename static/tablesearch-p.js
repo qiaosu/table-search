@@ -161,7 +161,15 @@ window.View = klass({
 
 
 window.SearchView = window.View.extend({
-
+	initialize: function(){
+		this.subscribe();
+	},
+	subscribe: function(){
+		Events.on('ValidateError', this.showError, this);
+	},
+	showError: function(arg){
+		console.log(arg);
+	}
 });
 window.searchView = new window.SearchView();
 

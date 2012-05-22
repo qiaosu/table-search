@@ -45,4 +45,18 @@ $(document).ready(function(){
     window.searchCore.set({'phone': '13333333333'});
     equal(window.searchCore.get('phone'), '13333333333', 'validator passed.');
   });
+
+  test('searchView', function(){
+    ok(window.SearchView, 'SearchView is exist.');
+
+    window.searchView = new window.SearchView();
+
+    ok(window.searchView._id, 'This view\'s id is: '+window.searchView._id);
+
+
+  });
+
+  test('validator', function(){
+    
+  });
 });
