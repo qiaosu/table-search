@@ -1,0 +1,55 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Knockout : Simple list example</title>
+
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    
+</head>
+<body>
+    <div id="wrapper">
+        <div class="content">
+            <h1>Simple list example</h1>
+            <p>This example demonstrates binding to an array of values.</p>
+
+            <p>
+                Notice how the &#8220;Add&#8221; button is enabled only when you have entered some text - check the HTML source code to see how to use the &#8220;enable&#8221; binding.
+            </p>
+            <h2>Live example</h2>
+            <div class='liveExample'>
+
+                <form data-bind='submit: addItem'>
+                    New item:
+                    <input data-bind='value: itemToAdd, valueUpdate: "afterkeydown"' />
+                    <button data-bind='enable: itemToAdd().length >0' type='submit'>Add</button>
+                    <p>Your items:</p>
+                    <select data-bind='options: items' multiple='multiple' width='50'></select>
+                </form>
+
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/knockout-2.2.0.debug.js"></script>
+<script type="text/javascript" src="js/json2.js"></script>
+<script type='text/javascript'>
+/*<![CDATA[*/
+    var SimpleListModel = function(items) {
+        this.items = ko.observableArray(items);
+        this.itemToAdd = ko.observable("");
+        this.addItem = function() {
+            if (this.itemToAdd() != "") {
+                this.items.push(this.itemToAdd()); // Adds the item. Writing to the "items" observableArray causes any associated UI to update.
+                this.itemToAdd(""); // Clears the text box, because it's bound to the "itemToAdd" observable
+            }
+        }.bind(this);  // Ensure that "this" is always this view model
+    };
+
+    var simpleListModel = new SimpleListModel(["Alpha", "Beta", "Gamma"]);
+
+    ko.applyBindings(simpleListModel);
+/*]]>*/</script>
+</body>
+</html>
