@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Knockout : Simple list example</title>
 
-    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="static/styles.css" />
     
 </head>
 <body>
@@ -18,7 +18,7 @@
                 Notice how the &#8220;Add&#8221; button is enabled only when you have entered some text - check the HTML source code to see how to use the &#8220;enable&#8221; binding.
             </p>
             <h2>Live example</h2>
-            <div class='liveExample'>
+            <div class='liveExample' id="example">
 
                 <form data-bind='submit: addItem'>
                     New item:
@@ -29,11 +29,23 @@
                 </form>
 
             </div>
+
+            <div class="search-box" id="searchView">
+                <form data-bind="submit: search">
+                    Title:
+                    <input data-bind="value: data.title, event: { blur: validate }" />
+                    date start: 
+                    <input data-bind="value: data.dateStart, event: { blur: validate }" />
+                    date end: 
+                    <input data-bind="value: data.dateEnd, event: { blur: validate }" />
+                    <button type='submit'>Search</button>
+                </form>
+            </div>
         </div>
     </div>
-<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
-<script type="text/javascript" src="js/knockout-2.2.0.debug.js"></script>
-<script type="text/javascript" src="js/json2.js"></script>
+<script type="text/javascript" src="static/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="static/knockout-2.2.0.debug.js"></script>
+<script type="text/javascript" src="static/json2.js"></script>
 <script type='text/javascript'>
 /*<![CDATA[*/
     var SimpleListModel = function(items) {
@@ -49,7 +61,41 @@
 
     var simpleListModel = new SimpleListModel(["Alpha", "Beta", "Gamma"]);
 
-    ko.applyBindings(simpleListModel);
+    ko.applyBindings(simpleListModel, document.getElementById('example'));
+
+    var SearchModel = function(){
+        var settings = {
+            url: '',
+            method: 'post'
+        }
+        this.data = {
+            title: ko.observable(""),
+            dateStart: ko.observable(""),
+            dateEnd: ko.observable("")
+        };
+        this.search = function(tgt){
+            var _prepare = this.validateAll();
+            if (!_prepare) {return false;}
+            this.post();
+            return false;
+        }.bind(this);
+        this.validate = function(data, event){
+            //validate
+            console.log('validate', event.target);
+            return true;
+        };
+        this.validateAll = function(){
+
+            return true;
+        };
+        this.post = function(){
+
+        };
+    };
+
+    var searchModel = new SearchModel();
+
+    ko.applyBindings(searchModel, document.getElementById('searchView'));
 /*]]>*/</script>
 </body>
 </html>
