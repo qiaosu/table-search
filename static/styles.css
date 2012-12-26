@@ -1,9 +1,9 @@
 /* Tripoli overrides */
 .content { font-size: 1.1em !important; }
 .content p + ul, .content p + blockquote { margin-top: -0.8em; }
-.sticker .content h1 { font-size: 1.6em; margin: 0.4em 0 0.4em 0; }
-.sticker .content h2 { font-size: 1.4em ;}
-.sticker .content h3 { font-size: 1.2em ;}
+.content h1 { font-size: 1.6em; margin: 0.4em 0 0.4em 0; }
+.content h2 { font-size: 1.4em ;}
+.content h3 { font-size: 1.2em ;}
 .sticker .content a, .sticker a { color: #A71500; text-decoration: underline; }
 .sticker .content form { margin: 0; padding: 0; }
 blockquote > :first-child::before { content: ""; margin-left: 0; padding-right: 0; }
@@ -94,11 +94,17 @@ body { font-family: arial; font-size: 14px; }
 .liveExample select[multiple] { width: 100%; height: 8em; }
 .liveExample h2 { margin-top: 0.4em; }
 
-.search-box { margin: 2em 0 0; padding: 1em; background-color: #EEEEDD; border: 1px solid #CCC; max-width: 655px; }
-.search-box input { font-family: Arial; }
+.search-box, .cache-box, .data-box { margin: 2em 0 0; padding: 1em; background-color: #EEEEDD; border: 1px solid #CCC; }
+.search-box input { font-family: Arial; font-size: 12px; }
 .search-box b { font-weight: bold; }
 .search-box p { margin-top: 0.9em; margin-bottom: 0.9em; }
 .search-box h2 { margin-top: 0.4em; }
+.search-box td { vertical-align: top; padding: 0 10px; }
+
+.search-box .error { display: block; color: red; font-size: 12px; }
+
+.cache-box { font-size: 11px; color: #666; }
+.data-box { min-height: 300px; }
 
 /* Menu */
 .main-menu { display:table; float:right; margin: 1em 0 0.5em 0; font-size: 14px; font-weight: bold; }
