@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Knockout : Simple list example</title>
 
-    <link rel="stylesheet" type="text/css" href="http://assets.stable.alipay.net/financeprod/??/financeprod.financing-1.0-financing-src.css" />
+    <link rel="stylesheet" type="text/css" href="https://a.alipayobjects.com/financeprod/??/financeprod.financing-1.0-financing-src.css" />
     <link rel="stylesheet" type="text/css" href="static/styles.css" />
     
 </head>
@@ -25,15 +25,15 @@
                         <tr>
                             <td class="form-item">
                                 Title: 
-                                <input data-bind="value: data.title" class="mi-input" name="title" />
+                                <input data-bind="value: title" class="mi-input" name="title" />
                             </td>
                             <td class="form-item">
                                 date start: 
-                                <input data-bind="value: data.dateStart" class="mi-input mi-input-date" data-type="date" name="dateStart" value="2012.05.17" />
+                                <input data-bind="value: dateStart" class="mi-input mi-input-date" data-type="date" name="dateStart" value="2012.05.17" />
                             </td>
                             <td class="form-item">
                                 date end: 
-                                <input data-bind="value: data.dateEnd" class="mi-input mi-input-date" data-type="date" name="dateEnd" value="2012.05.19" />
+                                <input data-bind="value: dateEnd" class="mi-input mi-input-date" data-type="date" name="dateEnd" value="2012.05.19" />
                             </td>
                             <td class="form-item">
                                 <span class="mi-button mi-button-sblue">
@@ -48,19 +48,55 @@
                 <label for="cacheData">Random cache:</label><br/>
                 <textarea name="cacheData" id="cacheData" rows="7" cols="160" readonly="readonly"></textarea>
             </div>
-            <div class="data-box"></div>
+            <div class="data-box" id="contentView">
+                <label for="cacheData">Output:</label><br/>
+                <div class="mi-table">
+                    <table>
+                        <thead>
+                            <tr><th>Index</th><th>Title</th><th>Date</th></tr>
+                        </thead>
+                        <tbody data-bind="foreach: content">
+                            <tr data-bind="if: $index()%2 === 0">
+                                <td data-bind="text: index"></td>
+                                <td data-bind="text: title"></td>
+                                <td data-bind="text: date"></td>
+                            </tr>
+                            <tr data-bind="if: $index()%2 !== 0" class="mi-table-spliter">
+                                <td data-bind="text: index"></td>
+                                <td data-bind="text: title"></td>
+                                <td data-bind="text: date"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="pagination fn-clear" id="paginationView">
+                <div class="mi-paging mi-paging-text ft-12 fn-right">
+                    <a href="#" class="mi-paging-first" data-bind="attr: { rel: first }, click: go">首页</a>
+                    <a href="#" class="mi-paging-prev" data-bind="attr: { rel: prev }, click: go">上一页</a>
+                    <span class="mi-paging-info">
+                        <span data-bind="text: start"></span>
+                         - 
+                        <span data-bind="text: end"></span>条，共
+                        <span data-bind="text: total"></span>条，
+                        每页显示：<span data-bind="text: pageShowCounts"></span>条。
+                    </span>
+                    <a href="#" class="mi-paging-next" data-bind="attr: { rel: next }, click: go">下一页</a>
+                    <a href="#" class="mi-paging-last" data-bind="attr: { rel: last }, click: go">尾页</a>
+                </div>
+            </div>
             <div id="cal_cantainer1"></div>
         </div>
     </div>
 <script type="text/javascript" charset="utf-8">
     araleConfig = {
-        combo_host: 'http://assets.dev.alipay.net',
+        combo_host: 'https://a.alipayobjects.com',
         combo_path: '/ar/??'
     }
 </script>
-<script type="text/javascript" src="http://assets.dev.alipay.net/ar/arale.core-1.1.js"></script>
-<script type="text/javascript" src="http://assets.dev.alipay.net/ar/aralex.validator.ClassicValidator-1.4-index.js"></script>
-<script type="text/javascript" src="http://assets.dev.alipay.net/ar/aralex.calendar-1.4-index.js"></script>
+<script type="text/javascript" src="https://a.alipayobjects.com/ar/arale.core-1.1.js"></script>
+<script type="text/javascript" src="https://a.alipayobjects.com/ar/aralex.validator.ClassicValidator-1.4-index.js"></script>
+<script type="text/javascript" src="https://a.alipayobjects.com/ar/aralex.calendar-1.4-index.js"></script>
 <script type="text/javascript" src="static/knockout-2.2.0.debug.js"></script>
 <script type="text/javascript" src="static/json2.js"></script>
 <script type='text/javascript'>
@@ -74,6 +110,20 @@
             Str += tmStr.charAt(Math.random() * Len);
         }
         return (u ? Str.toUpperCase() : Str);
+    };
+
+    utils.mixin = function(target, src, override) {
+        if (!target) {
+            target = {};
+        }
+        for (var name in src) {
+            if (src.hasOwnProperty(name)) {
+                if ((target[name] == undefined) || override) {
+                    target[name] = src[name];
+                }
+            }
+        }
+        return target;
     };
 
     utils.dateFormat = (function(){
@@ -191,15 +241,55 @@
     };
 
     var Router = {
+        data: {},
+        output: {},
+        mockArr: [],
         /* 组装数据 */
         assemble: function(){
-
+            this.data = {
+                search: {},
+                pagination: {}
+            };
+            utils.mixin(this.data.search, {
+                title: searchModel.title(),
+                dateStart: searchModel.dateStart(),
+                dateEnd: searchModel.dateEnd()
+            });
+            utils.mixin(this.data.pagination, {
+                pageNo: paginationModel.pageNo(),
+                pageShowCounts: paginationModel.pageShowCounts(),   //每页显示10条记录
+                total: paginationModel.total()   
+            });
+            this.post();
         },
         /* 拆分数据 */
         split: function(){
-
+            searchModel.render(this.output.search);
+            dataModel.render(this.output.content);
+            paginationModel.render(this.output.pagination);
         },
-        post: function(){}
+        mock: function(){
+            this.mockArr = utils.mockdata(Math.random()*50+5, this.data.search);
+            var mock = this.mockArr.map(function(item){return JSON.stringify(item);})
+            $('cacheData').setHtml(mock.join(','));
+        },
+        createMockOutput: function() {
+            this.output = {
+                pagination: {
+                    pageNo: 1,
+                    pageShowCounts: 10,
+                    total: this.mockArr.length
+                },
+                search: this.data.search,
+                content: this.mockArr.slice(0, 10)　　
+            }
+            this.split();
+        },
+        post: function(){
+            this.output = {};
+            this.mock();
+            this.createMockOutput();
+        }
     };
 
     var SearchModel = function(){
@@ -207,20 +297,16 @@
             url: '',
             method: 'post'
         }
-        this.data = {
-            title: ko.observable(""),
-            dateStart: ko.observable($$('input[name="dateStart"]')[0].attr('value')),
-            dateEnd: ko.observable($$('input[name="dateEnd"]')[0].attr('value'))
-        };
+        this.title = ko.observable("");
+        this.dateStart = ko.observable($$('input[name="dateStart"]')[0].attr('value'));
+        this.dateEnd = ko.observable($$('input[name="dateEnd"]')[0].attr('value'));
         this.search = function(tgt){
-            var data = {
-                title: this.data.title(),
-                dateStart: this.data.dateStart(),
-                dateEnd: this.data.dateEnd()
-            }
-            var mock = utils.mockdata(Math.random()*50+5, data);
-            mock = mock.map(function(item){return JSON.stringify(item);})
-            $('cacheData').setHtml(mock.join(','));
+            Router.assemble();
+        }.bind(this);
+        this.render = function(data){
+            this.title(data.title);
+            this.dateStart(data.dateStart);
+            this.dateEnd(data.dateEnd);
         }.bind(this);
     };
 
@@ -228,12 +314,52 @@
 
     ko.applyBindings(searchModel, document.getElementById('searchView'));
 
-    var DataModel = function(arr){
-        this.data = ko.observableArray(arr);
-        this.render = function(){
+    var PaginationModel = function(){
+        this.pageNo = ko.observable(1);
+        this.pageShowCounts = ko.observable(10);
+        this.total = ko.observable(10);
+        this.prev = ko.computed(function() {
+            return this.pageNo() > 1 ? this.pageNo() - 1 : 0;
+        }, this);
+        this.next = ko.computed(function() {
+            return this.pageNo() + 1;
+        }, this);
+        this.first = ko.computed(function() {
+            return (this.total() == 0) ? 0 : 1;
+        }, this);
+        this.last = ko.computed(function() {
+            return this.total() > 0 ? Math.ceil(this.total() / this.pageShowCounts()) : 0;
+        }, this);
+        this.start = ko.computed(function() {
+            return (this.pageNo() - 1) * this.pageShowCounts() + 1;
+        }, this);
+        this.end = ko.computed(function() {
+            return this.pageNo() * this.pageShowCounts() >= this.total() ? this.total() : this.pageNo() * this.pageShowCounts();
+        }, this);
+        this.go = function(){
 
+        }.bind(this);
+        this.render = function(data){
+            this.pageNo(data.pageNo);
+            this.pageShowCounts(data.pageShowCounts);
+            this.total(data.total);
+        }.bind(this);
+    };
+
+    var paginationModel = new PaginationModel();
+
+    ko.applyBindings(paginationModel, document.getElementById('paginationView'));
+
+    var DataModel = function(arr){
+        this.content = ko.observableArray(arr);
+        this.render = function(data){
+            this.content(data);
         }
     };
+
+    var dataModel = new DataModel([]);
+
+    ko.applyBindings(dataModel, document.getElementById('contentView'));
 
     E.domReady(function(){
         var dc = null, minDate = "2012.5.1", maxDate = "2012.5.31";
@@ -256,7 +382,7 @@
                     this.dateField.attr("value", date);
 
                     var name = this.dateField.attr("name");
-                    searchModel.data[name] = ko.observable(date)
+                    searchModel[name] = ko.observable(date)
                 }
                 this.hide();
                 this.dateField = null;

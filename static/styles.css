@@ -94,7 +94,7 @@ body { font-family: arial; font-size: 14px; }
 .liveExample select[multiple] { width: 100%; height: 8em; }
 .liveExample h2 { margin-top: 0.4em; }
 
-.search-box, .cache-box, .data-box { margin: 2em 0 0; padding: 1em; background-color: #EEEEDD; border: 1px solid #CCC; }
+.search-box, .cache-box, .data-box, .pagination { margin: 2em 0 0; padding: 1em; background-color: #EEEEDD; border: 1px solid #CCC; }
 .search-box input { font-family: Arial; font-size: 12px; }
 .search-box b { font-weight: bold; }
 .search-box p { margin-top: 0.9em; margin-bottom: 0.9em; }
@@ -103,8 +103,9 @@ body { font-family: arial; font-size: 14px; }
 
 .search-box .error { display: block; color: red; font-size: 12px; }
 
-.cache-box { font-size: 11px; color: #666; }
-.data-box { min-height: 300px; }
+.cache-box { font-size: 12px; }
+.cache-box textarea { font-size: 11px; color: #666; }
+.data-box { min-height: 300px; font-size: 12px; }
 
 /* Menu */
 .main-menu { display:table; float:right; margin: 1em 0 0.5em 0; font-size: 14px; font-weight: bold; }
